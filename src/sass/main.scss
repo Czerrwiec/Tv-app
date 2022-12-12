@@ -1,0 +1,90 @@
+@use './colors' as *;
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: 'Tajawal', sans-serif;
+	background-color: $third;
+	background-color: $one;
+	color: $second;
+}
+
+.wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.one {
+	height: 100vh;
+}
+
+
+nav {
+    background-color: $second;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+
+}
+
+.box {
+    background-color: $second;
+    position: relative;
+}
+
+
+.drop-btn {
+    margin: 0.5em;
+	background: none;
+	background-color: $third;
+	padding: 0.5em 1em;
+	color: $second;
+	font-size: 1.6rem;
+	cursor: pointer;
+	border: 2px solid $second;
+	box-shadow: 0 0 2px;
+	transition: color 0.4s, background-color 0.4s, border 0.4s;
+	&:hover {
+		color: $third;
+		background-color: $second;
+        border: 2px solid $third;
+	}
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    top: 100%;
+    left: 0.3%;
+    padding: 1em;
+    border: 2px solid $third;
+    border-top: none;
+    box-shadow: 0 0 3px;
+    background-color: $second;
+    z-index: -5;
+    transition: transform 0.5s;
+    transform: translateY(-110%);
+    
+
+    button {
+        margin: 0.2em;
+    }
+}
+
+
+.transform-class {
+    transform: translateY(0%);
+}
