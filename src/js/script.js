@@ -8,11 +8,15 @@ mainBtn.addEventListener('click', () => {
 	dropdownMenu.classList.toggle('transform-class');
 });
 
+dropdownMenu.addEventListener('click', () => {
+	dropdownMenu.classList.remove('transform-class');
+});
+
 class TvMaze {
 	constructor() {
 		this.viewElems = {};
 		this.showNameButtons = {};
-		this.selectedName = 'speed';
+		this.selectedName = '';
 		this.initializeApp();
 	}
 
@@ -41,6 +45,20 @@ class TvMaze {
 				this.setCurrentFilterByName
 			)
 		);
+
+		this.showNameButtons.search.addEventListener(
+			'click',
+			this.setCurrentFilterByInput
+		);
+		this.viewElems.searchInput.addEventListener('keydown', this.setCurrentFilterByInput);
+	};
+
+	setCurrentFilterByInput = () => {
+		if (event.type === 'click' || event.key === 'Enter') {
+			this.selectedName = this.viewElems.searchInput.value;
+			this.fetchAndDisplayShows();
+			this.viewElems.searchInput.value = '';
+		}
 	};
 
 	setCurrentFilterByName = (e) => {
@@ -70,7 +88,58 @@ class TvMaze {
 		const { showId } = event.target.dataset;
 
 		getShowById(showId).then((show) => {
+			let genre = show.genres;
+			let runtime;
+			let premiered;
+			let ended;
+
+			if (genre.length > 0) {
+				genre = 'Genre: ' + genre.join(', ');
+			} else {
+				genre = 'Genre: Unknown';
+			}
+
+			if (show.runtime) {
+				runtime = 'Runtime: ' + show.runtime + 'min';
+			} else {
+				runtime = 'Runtime: Unknown';
+			}
+
+			if (show.premiered) {
+				premiered = 'Premiered: ' + show.premiered;
+			} else {
+				premiered = 'Premiered: Unknown';
+				ended = 'Ended: Unknown';
+			}
+
+			if (show.ended) {
+				ended = 'Ended: ' + show.ended;
+			} else {
+				ended = 'Ended: -';
+			}
+
+			const infoDiv = createDOMElem('div', 'info-div');
+			const runtimeParagraph = createDOMElem('p', 'info', runtime);
+			const genreParagraph = createDOMElem('p', 'info', genre);
+			const languageParagraph = createDOMElem(
+				'p',
+				'info',
+				'Language: ' + show.language
+			);
+			const premieredParagraph = createDOMElem('p', 'info', premiered);
+			const endedParagraph = createDOMElem('p', 'info', ended);
+
+			infoDiv.append(
+				runtimeParagraph,
+				genreParagraph,
+				languageParagraph,
+				premieredParagraph,
+				endedParagraph
+			);
+
 			const card = this.createShowCard(show, true);
+			card.insertBefore(infoDiv, card.children[2]);
+
 			this.viewElems.showPreview.append(card);
 			this.viewElems.showPreview.style.display = 'block';
 		});
@@ -95,7 +164,7 @@ class TvMaze {
 		let img;
 
 		if (show.summary) {
-			const summaryAfter = show.summary.replace(/[<p><b>/]/g, '');
+			const summaryAfter = show.summary.replace(/<\/?[^>]+(>|$)/g, '');
 			if (isDetailed) {
 				paragraph = createDOMElem('p', null, summaryAfter);
 			} else {
@@ -133,7 +202,7 @@ class TvMaze {
 
 		if (isDetailed) {
 			button.addEventListener('click', this.closeDetailsView);
-			button.textContent = "Close"
+			button.textContent = 'Close';
 		} else {
 			button.addEventListener('click', this.openDetailsView);
 		}
