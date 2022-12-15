@@ -12,7 +12,6 @@ html {
 
 body {
 	font-family: 'Tajawal', sans-serif;
-	background-color: $third;
 	background-color: $one;
 	color: $second;
 }
@@ -23,26 +22,23 @@ body {
 	width: 100%;
 }
 
-
 nav {
-    background-color: $second;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 50;
-
+	background-color: $fifth;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 50;
 }
 
 .box {
-    background-color: $second;
-    position: relative;
+	background-color: $fifth;
+	position: relative;
 }
 
-
 .drop-btn {
-    margin: 0.5em;
+	margin: 0.5em;
 	background: none;
-	background-color: $third;
+	background-color: $one;
 	padding: 0.5em 1em;
 	color: $second;
 	font-size: 1.6rem;
@@ -52,95 +48,124 @@ nav {
 	transition: color 0.4s, background-color 0.4s, border 0.4s;
 	&:hover {
 		color: $third;
-		background-color: $second;
-        border: 2px solid $third;
+		background-color: $fourth;
+		border: 2px solid $third;
 	}
 }
 
-
 .dropdown-menu {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: 210px;
-    top: 100%;
-    left: 0.3%;
-    padding: 1em;
-    border: 2px solid $third;
-    border-top: none;
-    box-shadow: 0 0 3px;
-    background-color: $second;
-    z-index: -5;
-    transition: transform 0.5s;
-    transform: translateY(-110%);
-    
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	width: 210px;
+	top: 100%;
+	left: 0.3%;
+	padding: 1em;
+	border: 2px solid $third;
+	border-top: none;
+	box-shadow: 0 0 3px;
+	background-color: $fifth;
+	z-index: -5;
+	transition: transform 0.5s;
+	transform: translateY(-110%);
 
-    button {
-        margin: 0.2em;
-    }
+	button {
+		margin: 0.2em;
+	}
 }
-
 
 .transform-class {
-    transform: translateY(0%);
+	transform: translateY(0%);
 }
-
 
 .shows-wrapper {
-    display: flex;
+	display: flex;
 
-    padding: 10em 1em 0 1em;
-    width: 100%;
-    height: 100%;
-    flex-wrap: wrap;
+	padding: 10em 1em 0 1em;
+	width: 100%;
+	height: 100%;
+	flex-wrap: wrap;
 }
 
+.show-preview {
+	display: none;
+	position: fixed;
+	left: 50%;
+	top: 10%;
+	width: 70%;
+	height: 70%;
+	transform: translate(-50%, 0);
+	z-index: 1;
+	box-shadow: 4px 4px 10px;
+
+	.card {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: none;
+		margin: 0;
+		border: none;
+		border-radius: 0;
+		&:hover {
+			box-shadow: none;
+			transform: none;
+		}
+
+	}
+}
+
+.card-preview-bg {
+	width: 100%;
+	height: 100%;
+	background-position: center;
+	background-size: cover;
+}
 
 .card {
-    position: relative;
-    // height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // height: 450px;
-    width: 270px;
-    margin: 1em;
-    background-color: $second;
-    border: 2px solid $second;
-    transition: all 0.3s;
-    border-radius: 5px;
-    border: 2px solid $third;
-    overflow: hidden;
-    
-    &:hover {
-        box-shadow: 4px 4px 10px $second;
-        transform: scale(1.005);
-    }
-    
-    .card-img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-    }
+	position: relative;
+	// height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	// height: 450px;
+	width: 270px;
+	margin: 1em;
+	background-color: $one;
+	transition: all 0.3s;
+	border-radius: 5px;
+	border: 2px solid $second;
+	overflow: hidden;
 
-    
-    .card-text {
-        height: 100%;
-        padding: 1em;
-        color: $one;
-        .card-title {
-            font-size: 2.5rem;
-            font-weight: 500;
-        }
-        p {
-            font-size: 1.6rem;
-        }    
-    }
+	&:hover {
+		box-shadow: 4px 4px 10px $second;
+		transform: scale(1.005);
+	}
 
-    .card-btn {
-        align-self: flex-end;
-        margin-right: 1em;
-        justify-self: flex-end;
-    }
+	.card-img {
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+	}
+
+	.card-text {
+		height: 100%;
+		padding: 1em;
+		color: $second;
+		.card-title {
+			padding-bottom: 0.2em;
+			font-size: 2.5rem;
+			font-weight: 500;
+		}
+		p {
+			font-size: 1.6rem;
+		}
+	}
+
+	.card-btn {
+		align-self: flex-end;
+		margin-right: 1em;
+		justify-self: flex-end;
+	}
 }
-

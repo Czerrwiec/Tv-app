@@ -4,7 +4,7 @@ export const getShowsByKey = key => {
 };
 
 
-// export const getShowByKey = id => {
-// 	return fetch(`https://api.tvmaze.com/shows/${id}?embed=cast`)
-//     .then(resp => resp.json());
-// };
+export const getShowById = id => {
+	return fetch(`https://api.tvmaze.com/shows/${id}?embed=cast`)
+    .then(resp => resp.json());
+};
