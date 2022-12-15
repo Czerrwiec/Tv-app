@@ -37,6 +37,7 @@ nav {
 	background-color: $fifth;
 }
 
+
 .drop-btn {
 	margin: 0.5em;
 	background: none;
@@ -90,7 +91,6 @@ nav {
 	}
 }
 
-
 .dropdown-menu {
 	position: absolute;
 	display: flex;
@@ -131,10 +131,12 @@ nav {
 	left: 50%;
 	top: 10%;
 	width: 70%;
-	height: 70%;
+	height: 80%;
+	max-width: 900px;
 	transform: translate(-50%, 0);
 	z-index: 1;
 	box-shadow: 4px 4px 10px;
+	z-index: 110;
 
 	.card {
 		width: 100%;
@@ -145,11 +147,17 @@ nav {
 		margin: 0;
 		border: none;
 		border-radius: 0;
+		z-index: 100;
 		&:hover {
 			box-shadow: none;
 			transform: none;
 		}
 
+		.card-text {
+			height: 45%;
+			padding: 1em;
+			color: $second;
+		}
 		.info-div {
 			font-size: 1.6rem;
 			font-weight: 500;
@@ -211,4 +219,34 @@ nav {
 		margin-right: 1em;
 		justify-self: flex-end;
 	}
+}
+
+.card:after {
+	position: absolute;
+	font-size: 3rem;
+	content: ' \2606';
+	bottom: 0%;
+	left: 5%;
+	color: rgb(3, 3, 2);
+	cursor: pointer;
+}
+
+.card.fav:after {
+	content: ' \2605';
+	color: rgb(255, 203, 0);
+}
+
+.card.no-before::after {
+	display: none;
+}
+
+.overlay {
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(40, 75, 98, 0.5);
+	z-index: 50;
 }

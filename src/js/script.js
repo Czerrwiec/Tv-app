@@ -1,23 +1,13 @@
 import { mapListToDOMElements, createDOMElem } from './dominteractions.js';
 import { getShowById, getShowsByKey } from './requests.js';
 
-const mainBtn = document.querySelector('.main-btn');
-const dropdownMenu = document.querySelector('.dropdown-menu');
-
-mainBtn.addEventListener('click', () => {
-	dropdownMenu.classList.toggle('transform-class');
-});
-
-dropdownMenu.addEventListener('click', () => {
-	dropdownMenu.classList.remove('transform-class');
-});
-
 class TvMaze {
 	constructor() {
 		this.viewElems = {};
 		this.showNameButtons = {};
 		this.selectedName = '';
 		this.initializeApp();
+		this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 	}
 
 	initializeApp = () => {
@@ -39,18 +29,53 @@ class TvMaze {
 	};
 
 	setupListeners = () => {
+		const mainBtn = document.querySelector('.main-btn');
+		const dropdownMenu = document.querySelector('.dropdown-menu');
+
+		mainBtn.addEventListener('click', () => {
+			dropdownMenu.classList.toggle('transform-class');
+		});
+
+		dropdownMenu.addEventListener('click', () => {
+			dropdownMenu.classList.remove('transform-class');
+		});
+
 		Object.keys(this.showNameButtons).forEach((genre) =>
 			this.showNameButtons[genre].addEventListener(
 				'click',
 				this.setCurrentFilterByName
 			)
 		);
-
 		this.showNameButtons.search.addEventListener(
 			'click',
 			this.setCurrentFilterByInput
 		);
-		this.viewElems.searchInput.addEventListener('keydown', this.setCurrentFilterByInput);
+		this.viewElems.searchInput.addEventListener(
+			'keydown',
+			this.setCurrentFilterByInput
+		);
+
+		this.viewElems.showsWrapper.addEventListener('click', (e) => {
+			let id;
+			id = e.target.children[2].dataset.showId;
+
+			if (!this.favorites.includes(id)) {
+				this.favorites.push(id);
+				e.target.classList.add('fav');
+			} else {
+				for (let i = 0; i < this.favorites.length; i++) {
+					if (this.favorites[i] === id) {
+						this.favorites.splice(i, 1);
+						e.target.classList.remove('fav');
+					}
+				}
+			}
+			localStorage.setItem('favorites', JSON.stringify(this.favorites));
+		});
+
+		this.viewElems.favButton.addEventListener('click', (e) => {
+			this.renderFavorites();
+		});
 	};
 
 	setCurrentFilterByInput = () => {
@@ -80,8 +105,24 @@ class TvMaze {
 
 		for (const { show } of shows) {
 			const card = this.createShowCard(show);
+			// if (this.favorites.includes(card.children[2].dataset.showId)) {
+			// 	card.classList.add('fav');
+			// }
 			this.viewElems.showsWrapper.append(card);
 		}
+	};
+
+	renderFavorites = (shows) => {
+		this.viewElems.showsWrapper.innerHTML = '';
+		shows = this.favorites;
+
+		shows.forEach((id) => {
+			getShowById(id).then((show) => {
+				const card = this.createShowCard(show, false);
+				card.classList.add('fav');
+				this.viewElems.showsWrapper.append(card)
+			});
+		});
 	};
 
 	openDetailsView = (event) => {
@@ -140,8 +181,12 @@ class TvMaze {
 			const card = this.createShowCard(show, true);
 			card.insertBefore(infoDiv, card.children[2]);
 
+			card.classList.add('no-before');
+
 			this.viewElems.showPreview.append(card);
 			this.viewElems.showPreview.style.display = 'block';
+			document.body.style.overflow = 'hidden';
+			document.querySelector('.overlay').style.display = 'block';
 		});
 	};
 
@@ -153,6 +198,8 @@ class TvMaze {
 		closeBtn.removeEventListener('click', this.closeDetailsView);
 		this.viewElems.showPreview.style.display = 'none';
 		this.viewElems.showPreview.innerHTML = '';
+		document.body.style.overflow = '';
+		document.querySelector('.overlay').style.display = 'none';
 	};
 
 	createShowCard = (show, isDetailed) => {
